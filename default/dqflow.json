@@ -2917,36 +2917,6 @@
         "destination" : {
           "comments" : "",
           "groupId" : "083c833f-096f-323d-8db4-624d2d44e3e7",
-          "id" : "e35ca5f4-679d-327d-b3f3-520f374fd5a3",
-          "name" : "AttributesToCSV",
-          "type" : "PROCESSOR"
-        },
-        "flowFileExpiration" : "0 sec",
-        "groupIdentifier" : "083c833f-096f-323d-8db4-624d2d44e3e7",
-        "identifier" : "416d48df-1801-32bf-a8b2-fbca3bd93bd4",
-        "labelIndex" : 0,
-        "loadBalanceCompression" : "DO_NOT_COMPRESS",
-        "loadBalanceStrategy" : "DO_NOT_LOAD_BALANCE",
-        "name" : "",
-        "partitioningAttribute" : "",
-        "prioritizers" : [ ],
-        "selectedRelationships" : [ "success" ],
-        "source" : {
-          "comments" : "",
-          "groupId" : "083c833f-096f-323d-8db4-624d2d44e3e7",
-          "id" : "f2493d73-dd7a-344a-b881-fc075a4aa647",
-          "name" : "ExecuteSQL",
-          "type" : "PROCESSOR"
-        },
-        "zIndex" : 1
-      }, {
-        "backPressureDataSizeThreshold" : "1 GB",
-        "backPressureObjectThreshold" : 10000,
-        "bends" : [ ],
-        "componentType" : "CONNECTION",
-        "destination" : {
-          "comments" : "",
-          "groupId" : "083c833f-096f-323d-8db4-624d2d44e3e7",
           "id" : "bdeca5d5-3fec-384e-960d-c0f16c78820b",
           "name" : "UpdateRecord",
           "type" : "PROCESSOR"
@@ -5047,87 +5017,6 @@
         "schedulingStrategy" : "TIMER_DRIVEN",
         "style" : { },
         "type" : "org.apache.nifi.processors.standard.RouteOnAttribute",
-        "yieldDuration" : "1 sec"
-      }, {
-        "autoTerminatedRelationships" : [ ],
-        "backoffMechanism" : "PENALIZE_FLOWFILE",
-        "bulletinLevel" : "WARN",
-        "bundle" : {
-          "artifact" : "nifi-standard-nar",
-          "group" : "org.apache.nifi",
-          "version" : "2.5.0"
-        },
-        "comments" : "",
-        "componentType" : "PROCESSOR",
-        "concurrentlySchedulableTaskCount" : 1,
-        "executionNode" : "ALL",
-        "groupIdentifier" : "083c833f-096f-323d-8db4-624d2d44e3e7",
-        "identifier" : "e35ca5f4-679d-327d-b3f3-520f374fd5a3",
-        "maxBackoffPeriod" : "10 mins",
-        "name" : "AttributesToCSV",
-        "penaltyDuration" : "30 sec",
-        "position" : {
-          "x" : 2396.244520941754,
-          "y" : 1138.1961971565697
-        },
-        "properties" : {
-          "null-value" : "false",
-          "include-core-attributes" : "true",
-          "destination" : "flowfile-attribute",
-          "include-schema" : "false"
-        },
-        "propertyDescriptors" : {
-          "null-value" : {
-            "displayName" : "Null Value",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "null-value",
-            "sensitive" : false
-          },
-          "include-core-attributes" : {
-            "displayName" : "Include Core Attributes",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "include-core-attributes",
-            "sensitive" : false
-          },
-          "attributes-regex" : {
-            "displayName" : "Attributes Regular Expression",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "attributes-regex",
-            "sensitive" : false
-          },
-          "destination" : {
-            "displayName" : "Destination",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "destination",
-            "sensitive" : false
-          },
-          "include-schema" : {
-            "displayName" : "Include Schema",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "include-schema",
-            "sensitive" : false
-          },
-          "attribute-list" : {
-            "displayName" : "Attribute List",
-            "dynamic" : false,
-            "identifiesControllerService" : false,
-            "name" : "attribute-list",
-            "sensitive" : false
-          }
-        },
-        "retriedRelationships" : [ ],
-        "retryCount" : 10,
-        "runDurationMillis" : 0,
-        "scheduledState" : "ENABLED",
-        "schedulingPeriod" : "0 sec",
-        "schedulingStrategy" : "TIMER_DRIVEN",
-        "style" : { },
-        "type" : "org.apache.nifi.processors.standard.AttributesToCSV",
         "yieldDuration" : "1 sec"
       }, {
         "autoTerminatedRelationships" : [ "failure" ],
@@ -20597,6 +20486,6 @@
   "parameterProviders" : { },
   "snapshotMetadata" : {
     "flowIdentifier" : "dqflow",
-    "timestamp" : 1753363963884
+    "timestamp" : 1753364047811
   }
 }
