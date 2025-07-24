@@ -467,14 +467,14 @@
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.RecordLookupService"
+        "type" : "org.apache.nifi.lookup.LookupService"
       }, {
         "bundle" : {
           "artifact" : "nifi-standard-services-api-nar",
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.LookupService"
+        "type" : "org.apache.nifi.lookup.RecordLookupService"
       } ],
       "groupIdentifier" : "flow-contents-group",
       "identifier" : "3616e3a4-20f8-355a-a9b7-247832ff61a5",
@@ -814,14 +814,14 @@
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.RecordLookupService"
+        "type" : "org.apache.nifi.lookup.LookupService"
       }, {
         "bundle" : {
           "artifact" : "nifi-standard-services-api-nar",
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.LookupService"
+        "type" : "org.apache.nifi.lookup.RecordLookupService"
       } ],
       "groupIdentifier" : "flow-contents-group",
       "identifier" : "75878d7f-12ae-35a3-b08c-7fd1570edf64",
@@ -1500,19 +1500,19 @@
       } ],
       "groupIdentifier" : "flow-contents-group",
       "identifier" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
-      "name" : "local_postgres_16_5433",
+      "name" : "DQ_source_data_db",
       "properties" : {
         "dbcp-min-idle-conns" : "0",
         "Max Wait Time" : "500 millis",
-        "Database Driver Class Name" : "${result_db_driver}",
+        "Database Driver Class Name" : "#{source_db_driver}",
         "dbcp-min-evictable-idle-time" : "30 mins",
         "Max Total Connections" : "8",
         "dbcp-max-conn-lifetime" : "-1",
-        "Database Connection URL" : "${result_db_url}",
+        "Database Connection URL" : "#{source_db_url}",
         "dbcp-time-between-eviction-runs" : "-1",
-        "Database User" : "${result_db_user}",
+        "Database User" : "#{source_db_user}",
         "dbcp-soft-min-evictable-idle-time" : "-1",
-        "database-driver-locations" : "${result_db_driver_path}",
+        "database-driver-locations" : "#{source_db_driver_path}",
         "dbcp-max-idle-conns" : "8"
       },
       "propertyDescriptors" : {
@@ -2771,6 +2771,7 @@
     "maxConcurrentTasks" : 1,
     "name" : "DQ_engine",
     "outputPorts" : [ ],
+    "parameterContextName" : "LocalParameters",
     "position" : {
       "x" : 0.0,
       "y" : 0.0
@@ -3424,6 +3425,7 @@
       "maxConcurrentTasks" : 1,
       "name" : "GetGlueSchemaAndCreateRules",
       "outputPorts" : [ ],
+      "parameterContextName" : "LocalParameters",
       "position" : {
         "x" : 1544.0,
         "y" : 1184.0
@@ -6134,6 +6136,7 @@
         "scheduledState" : "ENABLED",
         "type" : "OUTPUT_PORT"
       } ],
+      "parameterContextName" : "LocalParameters",
       "position" : {
         "x" : 992.0,
         "y" : 1704.0
@@ -6775,6 +6778,7 @@
           "scheduledState" : "ENABLED",
           "type" : "OUTPUT_PORT"
         } ],
+        "parameterContextName" : "LocalParameters",
         "position" : {
           "x" : 2920.0,
           "y" : -784.0
@@ -6959,6 +6963,7 @@
             "scheduledState" : "ENABLED",
             "type" : "OUTPUT_PORT"
           } ],
+          "parameterContextName" : "LocalParameters",
           "position" : {
             "x" : 80.0,
             "y" : 752.0
@@ -7063,7 +7068,7 @@
               "esql-max-rows" : "0",
               "dbf-default-precision" : "10",
               "Max Wait Time" : "0 seconds",
-              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM ${schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
+              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM #{schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
               "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
               "esql-auto-commit" : "true",
               "dbf-user-logical-types" : "false",
@@ -7214,7 +7219,7 @@
             },
             "properties" : {
               "put-db-record-allow-multiple-statements" : "false",
-              "put-db-record-schema-name" : "${schema}",
+              "put-db-record-schema-name" : "#{schema}",
               "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
               "put-db-record-statement-type" : "INSERT",
               "put-db-record-quoted-identifiers" : "false",
@@ -7603,6 +7608,7 @@
             "scheduledState" : "ENABLED",
             "type" : "OUTPUT_PORT"
           } ],
+          "parameterContextName" : "LocalParameters",
           "position" : {
             "x" : 1136.0,
             "y" : 744.0
@@ -7634,7 +7640,7 @@
               "esql-max-rows" : "0",
               "dbf-default-precision" : "10",
               "Max Wait Time" : "0 seconds",
-              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM ${schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
+              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM #{schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
               "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
               "esql-auto-commit" : "true",
               "dbf-user-logical-types" : "false",
@@ -7858,7 +7864,7 @@
             },
             "properties" : {
               "put-db-record-allow-multiple-statements" : "false",
-              "put-db-record-schema-name" : "${schema}",
+              "put-db-record-schema-name" : "#{schema}",
               "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
               "put-db-record-statement-type" : "INSERT",
               "put-db-record-quoted-identifiers" : "false",
@@ -8246,6 +8252,7 @@
             "scheduledState" : "ENABLED",
             "type" : "OUTPUT_PORT"
           } ],
+          "parameterContextName" : "LocalParameters",
           "position" : {
             "x" : -392.0,
             "y" : 752.0
@@ -8275,7 +8282,7 @@
             },
             "properties" : {
               "put-db-record-allow-multiple-statements" : "false",
-              "put-db-record-schema-name" : "${schema}",
+              "put-db-record-schema-name" : "#{schema}",
               "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
               "put-db-record-statement-type" : "INSERT",
               "put-db-record-quoted-identifiers" : "false",
@@ -8520,7 +8527,7 @@
               "esql-max-rows" : "0",
               "dbf-default-precision" : "10",
               "Max Wait Time" : "0 seconds",
-              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM ${schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
+              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM #{schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
               "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
               "esql-auto-commit" : "true",
               "dbf-user-logical-types" : "false",
@@ -8889,6 +8896,7 @@
             "scheduledState" : "ENABLED",
             "type" : "OUTPUT_PORT"
           } ],
+          "parameterContextName" : "LocalParameters",
           "position" : {
             "x" : 1688.0,
             "y" : 752.0
@@ -8993,7 +9001,7 @@
               "esql-max-rows" : "0",
               "dbf-default-precision" : "10",
               "Max Wait Time" : "0 seconds",
-              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM ${schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
+              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM #{schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
               "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
               "esql-auto-commit" : "true",
               "dbf-user-logical-types" : "false",
@@ -9144,7 +9152,7 @@
             },
             "properties" : {
               "put-db-record-allow-multiple-statements" : "false",
-              "put-db-record-schema-name" : "${schema}",
+              "put-db-record-schema-name" : "#{schema}",
               "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
               "put-db-record-statement-type" : "INSERT",
               "put-db-record-quoted-identifiers" : "false",
@@ -9533,6 +9541,7 @@
             "scheduledState" : "ENABLED",
             "type" : "OUTPUT_PORT"
           } ],
+          "parameterContextName" : "LocalParameters",
           "position" : {
             "x" : 608.0,
             "y" : 752.0
@@ -9564,7 +9573,7 @@
               "esql-max-rows" : "0",
               "dbf-default-precision" : "10",
               "Max Wait Time" : "0 seconds",
-              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM ${schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
+              "SQL Query" : "SELECT '${table_name}' AS table_name,\n\t   \t${total_record_in_table} as total_record_in_table,\n\t   \t'${validation}' as validation_grp,\n       \tCOUNT(*) AS pass_cnt_for_completeness\nFROM ${table_name}\nLEFT JOIN (\n    SELECT DISTINCT concatenated_pk_columns \n    FROM #{schema}.merged_result_tbl \n    WHERE table_name = '${table_name}' \n      AND validation_grp = '${validation}'\n) AS selected_pk\nON concat_ws('_', ${pk_column}) = selected_pk.concatenated_pk_columns\nWHERE selected_pk.concatenated_pk_columns IS NULL;\n",
               "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
               "esql-auto-commit" : "true",
               "dbf-user-logical-types" : "false",
@@ -9715,7 +9724,7 @@
             },
             "properties" : {
               "put-db-record-allow-multiple-statements" : "false",
-              "put-db-record-schema-name" : "${schema}",
+              "put-db-record-schema-name" : "#{schema}",
               "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
               "put-db-record-statement-type" : "INSERT",
               "put-db-record-quoted-identifiers" : "false",
@@ -10089,7 +10098,7 @@
             "esql-max-rows" : "0",
             "dbf-default-precision" : "10",
             "Max Wait Time" : "0 seconds",
-            "SQL Query" : "WITH grped_by_validation AS (\n    SELECT \n        validation_grp,\n        SUM(total_record_in_table - pass_cnt_for_completeness) AS final_fail_count\n    FROM dq_checks.pass_rec_per_table\n    GROUP BY validation_grp\n)\nSELECT \n    b.run_date,\n    b.run_id,\n    a.validation_grp as validation_group,\n    a.final_fail_count as fail_record_count,\n\t(select sum(row_count) from ${schema}.table_with_total_count) as total_record_count\nFROM grped_by_validation a\nCROSS JOIN (\n    SELECT DISTINCT run_date, run_id \n    FROM dq_checks.agg_record_tbl\n) AS b;\n",
+            "SQL Query" : "WITH grped_by_validation AS (\n    SELECT \n        validation_grp,\n        SUM(total_record_in_table - pass_cnt_for_completeness) AS final_fail_count\n    FROM #{schema}.pass_rec_per_table\n    GROUP BY validation_grp\n)\nSELECT \n    b.run_date,\n    b.run_id,\n    a.validation_grp as validation_group,\n    a.final_fail_count as fail_record_count,\n\t(select sum(row_count) from #{schema}.table_with_total_count) as total_record_count\nFROM grped_by_validation a\nCROSS JOIN (\n    SELECT DISTINCT run_date, run_id \n    FROM #{schema}.agg_record_tbl\n) AS b;\n",
             "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
             "esql-auto-commit" : "true",
             "dbf-user-logical-types" : "false",
@@ -10377,7 +10386,7 @@
           "name" : "DetectDuplicate",
           "penaltyDuration" : "30 sec",
           "position" : {
-            "x" : 656.0,
+            "x" : 640.0,
             "y" : 1704.0
           },
           "properties" : {
@@ -10459,7 +10468,7 @@
             "esql-max-rows" : "0",
             "dbf-default-precision" : "10",
             "Max Wait Time" : "0 seconds",
-            "SQL Query" : "select distinct table_name,pk_column,total_record_in_table from ${schema}.dqr_tbl_with_pk_tbl_rec;",
+            "SQL Query" : "select distinct table_name,pk_column,total_record_in_table from #{schema}.dqr_tbl_with_pk_tbl_rec;",
             "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
             "esql-auto-commit" : "true",
             "dbf-user-logical-types" : "false",
@@ -10669,7 +10678,7 @@
           },
           "properties" : {
             "put-db-record-allow-multiple-statements" : "false",
-            "put-db-record-schema-name" : "${schema}",
+            "put-db-record-schema-name" : "#{schema}",
             "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
             "put-db-record-statement-type" : "INSERT",
             "put-db-record-quoted-identifiers" : "false",
@@ -10914,7 +10923,7 @@
             "esql-max-rows" : "0",
             "dbf-default-precision" : "10",
             "Max Wait Time" : "0 seconds",
-            "SQL Query" : "select count(*) table_remaining\nfrom (select table_name, count(distinct validation_grp) cnt \nfrom ${schema}.pass_rec_per_table group by table_name) as tbl_grouped\nwhere cnt < (select count(distinct validation_grp) from ${schema}.merged_result_tbl);\n",
+            "SQL Query" : "select count(*) table_remaining\nfrom (select table_name, count(distinct validation_grp) cnt \nfrom #{schema}.pass_rec_per_table group by table_name) as tbl_grouped\nwhere cnt < (select count(distinct validation_grp) from #{schema}.merged_result_tbl);\n",
             "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
             "esql-auto-commit" : "true",
             "dbf-user-logical-types" : "false",
@@ -11169,7 +11178,7 @@
         },
         "properties" : {
           "put-db-record-allow-multiple-statements" : "false",
-          "put-db-record-schema-name" : "${schema}",
+          "put-db-record-schema-name" : "#{schema}",
           "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
           "put-db-record-statement-type" : "INSERT",
           "put-db-record-quoted-identifiers" : "false",
@@ -11414,12 +11423,12 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select * from ${schema}.fail_record_grouped_by_table\nunion all\nselect * from ${schema}.fail_record_grouped_by_validation;\n",
+          "SQL Query" : "select * from #{schema}.fail_record_grouped_by_table\nunion all\nselect * from #{schema}.fail_record_grouped_by_validation;\n",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
           "dbf-default-scale" : "0",
-          "sql-pre-query" : "-- Step 1: Create the enriched base table excluding 'no_column' and tagging PK failures\nDROP TABLE IF EXISTS dq_checks.merge_tbl_with_filtered_column;\n\nCREATE TABLE dq_checks.merge_tbl_with_filtered_column AS\nSELECT \n    m.table_name,\n    m.concatenated_pk_columns,\n    m.rule_id,\n    m.validation_grp,\n    m.validation_rule,\n    CASE \n        WHEN pk_chk.concatenated_pk_columns IS NOT NULL THEN pk_chk.concatenated_pk_columns\n        ELSE NULL\n    END AS pk_available_in_fail_pk\nFROM dq_checks.merged_result_tbl m\nLEFT JOIN (\n    SELECT DISTINCT table_name, concatenated_pk_columns\n    FROM dq_checks.merged_result_tbl\n    WHERE validation_rule = 'primary_key_check'\n) pk_chk\nON m.table_name = pk_chk.table_name\nAND m.concatenated_pk_columns = pk_chk.concatenated_pk_columns\nAND m.validation_rule != 'primary_key_check'\nWHERE m.concatenated_pk_columns != 'no_column';\n\n-- step 2-- Table-level grouping\nDROP TABLE IF EXISTS dq_checks.fail_record_grouped_by_table;\nCREATE TABLE dq_checks.fail_record_grouped_by_table AS\nSELECT \n    table_name, \n    COUNT(*) AS final_failed_record_count \nFROM (\n    SELECT DISTINCT table_name, concatenated_pk_columns \n    FROM dq_checks.merge_tbl_with_filtered_column \n    WHERE pk_available_in_fail_pk IS NULL \n      AND validation_rule != 'primary_key_check'\n    \n    UNION ALL\n\n    SELECT table_name, concatenated_pk_columns \n    FROM dq_checks.merge_tbl_with_filtered_column\n    WHERE validation_rule = 'primary_key_check'\n) AS uni\nGROUP BY table_name;\n\nDROP TABLE IF EXISTS dq_checks.merge_tbl_with_filtered_column;",
+          "sql-pre-query" : "-- Step 1: Create the enriched base table excluding 'no_column' and tagging PK failures\nDROP TABLE IF EXISTS #{schema}.merge_tbl_with_filtered_column;\n\nCREATE TABLE #{schema}.merge_tbl_with_filtered_column AS\nSELECT \n    m.table_name,\n    m.concatenated_pk_columns,\n    m.rule_id,\n    m.validation_grp,\n    m.validation_rule,\n    CASE \n        WHEN pk_chk.concatenated_pk_columns IS NOT NULL THEN pk_chk.concatenated_pk_columns\n        ELSE NULL\n    END AS pk_available_in_fail_pk\nFROM #{schema}.merged_result_tbl m\nLEFT JOIN (\n    SELECT DISTINCT table_name, concatenated_pk_columns\n    FROM #{schema}.merged_result_tbl\n    WHERE validation_rule = 'primary_key_check'\n) pk_chk\nON m.table_name = pk_chk.table_name\nAND m.concatenated_pk_columns = pk_chk.concatenated_pk_columns\nAND m.validation_rule != 'primary_key_check'\nWHERE m.concatenated_pk_columns != 'no_column';\n\n-- step 2-- Table-level grouping\nDROP TABLE IF EXISTS #{schema}.fail_record_grouped_by_table;\nCREATE TABLE #{schema}.fail_record_grouped_by_table AS\nSELECT \n    table_name, \n    COUNT(*) AS final_failed_record_count \nFROM (\n    SELECT DISTINCT table_name, concatenated_pk_columns \n    FROM #{schema}.merge_tbl_with_filtered_column \n    WHERE pk_available_in_fail_pk IS NULL \n      AND validation_rule != 'primary_key_check'\n    \n    UNION ALL\n\n    SELECT table_name, concatenated_pk_columns \n    FROM #{schema}.merge_tbl_with_filtered_column\n    WHERE validation_rule = 'primary_key_check'\n) AS uni\nGROUP BY table_name;\n\nDROP TABLE IF EXISTS #{schema}.merge_tbl_with_filtered_column;\n",
           "compression-format" : "NONE",
           "esql-output-batch-size" : "0",
           "esql-fetch-size" : "0",
@@ -11571,14 +11580,14 @@
           "input-character-set" : "UTF-8",
           "SMTP Port" : "587",
           "SMTP Auth" : "true",
-          "From" : "${email_for_notification}",
+          "From" : "#{email_for_notification}",
           "Include All Attributes In Message" : "false",
           "SMTP Hostname" : "smtp.gmail.com",
           "Subject" : "GENERATION OF DQ SUMMERY FAILD",
           "SMTP X-Mailer Header" : "NiFi",
           "Content Type" : "text/plain",
-          "SMTP Username" : "${email_for_notification}",
-          "To" : "${email_for_notification}",
+          "SMTP Username" : "#{email_for_notification}",
+          "To" : "#{email_for_notification}",
           "email-ff-content-as-message" : "false",
           "authorization-mode" : "password-based-authorization-mode",
           "SMTP TLS" : "true"
@@ -11864,7 +11873,7 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select rule_id from ${schema}.merged_result_tbl where query_generation_status != 'ok';",
+          "SQL Query" : "select rule_id from #{schema}.merged_result_tbl where query_generation_status != 'ok';",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
@@ -12346,7 +12355,7 @@
         "penaltyDuration" : "30 sec",
         "position" : {
           "x" : 2400.0,
-          "y" : 472.0
+          "y" : 480.0
         },
         "properties" : {
           "SMTP Socket Factory" : "javax.net.ssl.SSLSocketFactory",
@@ -12355,14 +12364,14 @@
           "input-character-set" : "UTF-8",
           "SMTP Port" : "587",
           "SMTP Auth" : "true",
-          "From" : "${email_for_notification}",
+          "From" : "#{email_for_notification}",
           "Include All Attributes In Message" : "false",
           "SMTP Hostname" : "smtp.gmail.com",
           "Subject" : "DQ SUMMERY IS READY",
           "SMTP X-Mailer Header" : "NiFi",
           "Content Type" : "text/plain",
-          "SMTP Username" : "${email_for_notification}",
-          "To" : "${email_for_notification}",
+          "SMTP Username" : "#{email_for_notification}",
+          "To" : "#{email_for_notification}",
           "email-ff-content-as-message" : "false",
           "authorization-mode" : "password-based-authorization-mode",
           "SMTP TLS" : "true"
@@ -12563,7 +12572,7 @@
         },
         "properties" : {
           "put-db-record-allow-multiple-statements" : "false",
-          "put-db-record-schema-name" : "${schema}",
+          "put-db-record-schema-name" : "#{schema}",
           "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
           "put-db-record-statement-type" : "INSERT",
           "put-db-record-quoted-identifiers" : "false",
@@ -12891,12 +12900,12 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select * from ${schema}.agg_record_tbl",
+          "SQL Query" : "select * from #{schema}.agg_record_tbl",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
           "dbf-default-scale" : "0",
-          "sql-pre-query" : "DROP TABLE IF EXISTS ${schema}.agg_record_tbl;\n\nCREATE TABLE ${schema}.agg_record_tbl AS\nwith agg_records as(select \n\ta.*,\n\tb.final_failed_record_count as total_record_fail_in_table,\n\tc.final_failed_record_count as total_record_fail_in_validation_type,\n\tcount(case when concatenated_pk_columns != 'no_column' then concatenated_pk_columns else null end)\n\tover(partition by rule_id) as total_record_fail_in_rule_id,\n\trow_number() over(partition by rule_id) as rnk\n\tfrom ${schema}.merged_result_tbl a \n\tleft join ${schema}.fail_record_grouped_by_table b\n\t\ton a.table_name = b.table_name\n\tleft join ${schema}.fail_record_grouped_by_validation c\n\t\ton a.validation_grp = c.validation_grp)\nselect *,\n\t(select sum(total_record_fail_in_table) from (select distinct(table_name) table_name, \n\ttotal_record_fail_in_table from agg_records) AS distinct_tbl_fail) AS total_record_fail_for_run_id,\n\t(select sum(total_record_in_table) from (select distinct(table_name) table_name, \n\ttotal_record_in_table from agg_records) AS distinct_validation_grp_fail) AS total_record_for_run_id\nfrom agg_records where rnk =1;",
+          "sql-pre-query" : "DROP TABLE IF EXISTS #{schema}.agg_record_tbl;\n\nCREATE TABLE #{schema}.agg_record_tbl AS\nwith agg_records as(select \n\ta.*,\n\tb.final_failed_record_count as total_record_fail_in_table,\n\tc.final_failed_record_count as total_record_fail_in_validation_type,\n\tcount(case when concatenated_pk_columns != 'no_column' then concatenated_pk_columns else null end)\n\tover(partition by rule_id) as total_record_fail_in_rule_id,\n\trow_number() over(partition by rule_id) as rnk\n\tfrom #{schema}.merged_result_tbl a \n\tleft join #{schema}.fail_record_grouped_by_table b\n\t\ton a.table_name = b.table_name\n\tleft join #{schema}.fail_record_grouped_by_validation c\n\t\ton a.validation_grp = c.validation_grp)\nselect *,\n\t(select sum(total_record_fail_in_table) from (select distinct(table_name) table_name, \n\ttotal_record_fail_in_table from agg_records) AS distinct_tbl_fail) AS total_record_fail_for_run_id,\n\t(select sum(total_record_in_table) from (select distinct(table_name) table_name, \n\ttotal_record_in_table from agg_records) AS distinct_validation_grp_fail) AS total_record_for_run_id\nfrom agg_records where rnk =1;",
           "compression-format" : "NONE",
           "esql-output-batch-size" : "0",
           "esql-fetch-size" : "0",
@@ -13912,6 +13921,7 @@
         "scheduledState" : "ENABLED",
         "type" : "OUTPUT_PORT"
       } ],
+      "parameterContextName" : "LocalParameters",
       "position" : {
         "x" : 992.0,
         "y" : 1440.0
@@ -14249,12 +14259,12 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select * from ${schema}.dqr_tbl_with_pk_tbl_rec",
+          "SQL Query" : "select * from #{schema}.dqr_tbl_with_pk_tbl_rec",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
           "dbf-default-scale" : "0",
-          "sql-pre-query" : "DROP TABLE IF EXISTS ${schema}.dqr_tbl_with_pk_tbl_rec;\nCREATE TABLE ${schema}.dqr_tbl_with_pk_tbl_rec AS\nWITH table_with_pk_column AS (\n    SELECT \n        a.rule_id,\n        a.rule_name,\n        a.connection_id,\n        a.table_name,\n        a.validation_type,\n        a.validation_grp,\n        a.column_name,\n        a.validation_rule,\n        a.condition,\n        a.column_description,\n        a.rule_description,\n        b.column_name AS pk_column\n    FROM dq_checks.dq_rules a\n    LEFT JOIN (\n        SELECT table_name, column_name \n        FROM dq_checks.dq_rules \n        WHERE validation_rule = 'primary_key_check'\n    ) b\n    ON a.table_name = b.table_name\n)\nSELECT a.*, b.row_count AS total_record_in_table\nFROM table_with_pk_column a\nLEFT JOIN ${schema}.table_with_total_count b\n  ON a.table_name = b.table_name;\n",
+          "sql-pre-query" : "DROP TABLE IF EXISTS #{schema}.dqr_tbl_with_pk_tbl_rec;\nCREATE TABLE #{schema}.dqr_tbl_with_pk_tbl_rec AS\nWITH table_with_pk_column AS (\n    SELECT \n        a.rule_id,\n        a.rule_name,\n        a.connection_id,\n        a.table_name,\n        a.validation_type,\n        a.validation_grp,\n        a.column_name,\n        a.validation_rule,\n        a.condition,\n        a.column_description,\n        a.rule_description,\n        b.column_name AS pk_column\n    FROM dq_checks.dq_rules a\n    LEFT JOIN (\n        SELECT table_name, column_name \n        FROM dq_checks.dq_rules \n        WHERE validation_rule = 'primary_key_check'\n    ) b\n    ON a.table_name = b.table_name\n)\nSELECT a.*, b.row_count AS total_record_in_table\nFROM table_with_pk_column a\nLEFT JOIN #{schema}.table_with_total_count b\n  ON a.table_name = b.table_name;\n",
           "compression-format" : "NONE",
           "esql-output-batch-size" : "0",
           "esql-fetch-size" : "0",
@@ -15162,7 +15172,7 @@
         },
         "properties" : {
           "Create Missing Directories" : "true",
-          "Directory" : "${dq_result_files}/${today}/${run_id}",
+          "Directory" : "#{dq_result_files}/${today}/${run_id}",
           "Conflict Resolution Strategy" : "fail"
         },
         "propertyDescriptors" : {
@@ -15461,7 +15471,7 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : ";",
           "Ignore STDIN" : "false",
@@ -15926,7 +15936,7 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select count(distinct rule_id) cnt from ${schema}.merged_result_tbl;",
+          "SQL Query" : "select count(distinct rule_id) cnt from #{schema}.merged_result_tbl;",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
@@ -16077,7 +16087,7 @@
         },
         "properties" : {
           "put-db-record-allow-multiple-statements" : "false",
-          "put-db-record-schema-name" : "${schema}",
+          "put-db-record-schema-name" : "#{schema}",
           "put-db-record-unmatched-column-behavior" : "Fail on Unmatched Columns",
           "put-db-record-statement-type" : "INSERT",
           "put-db-record-quoted-identifiers" : "false",
@@ -16928,6 +16938,7 @@
       "maxConcurrentTasks" : 1,
       "name" : "raise_jira_issue",
       "outputPorts" : [ ],
+      "parameterContextName" : "LocalParameters",
       "position" : {
         "x" : 992.0,
         "y" : 1976.0
@@ -16958,11 +16969,11 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : " ",
           "Ignore STDIN" : "false",
-          "Command Arguments" : "invoke_jira.py ${dq_result_files}\\${today}\\${run_id} Uniquness ${ApiTokenJira} ${jira_email} ${jira_domain} ${jira_project_name}"
+          "Command Arguments" : "invoke_jira.py #{dq_result_files}\\${today}\\${run_id} Uniquness #{ApiTokenJira} #{jira_email} #{jira_domain} #{jira_project_name}\n"
         },
         "propertyDescriptors" : {
           "argumentsStrategy" : {
@@ -17146,11 +17157,11 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : " ",
           "Ignore STDIN" : "false",
-          "Command Arguments" : "invoke_jira.py ${dq_result_files}\\${today}\\${run_id} Completeness ${ApiTokenJira} ${jira_email} ${jira_domain} ${jira_project_name}"
+          "Command Arguments" : "invoke_jira.py #{dq_result_files}\\${today}\\${run_id} Completeness #{ApiTokenJira} #{jira_email} #{jira_domain} #{jira_project_name}\n"
         },
         "propertyDescriptors" : {
           "argumentsStrategy" : {
@@ -17417,11 +17428,11 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : " ",
           "Ignore STDIN" : "false",
-          "Command Arguments" : "invoke_jira.py ${dq_result_files}\\${today}\\${run_id} Integrity ${ApiTokenJira} ${jira_email} ${jira_domain} ${jira_project_name}"
+          "Command Arguments" : "invoke_jira.py #{dq_result_files}\\${today}\\${run_id} Integrity #{ApiTokenJira} #{jira_email} #{jira_domain} #{jira_project_name}\n"
         },
         "propertyDescriptors" : {
           "argumentsStrategy" : {
@@ -17595,11 +17606,11 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : " ",
           "Ignore STDIN" : "false",
-          "Command Arguments" : "invoke_jira.py ${dq_result_files}\\${today}\\${run_id} Consistency ${ApiTokenJira} ${jira_email} ${jira_domain} ${jira_project_name}"
+          "Command Arguments" : "invoke_jira.py #{dq_result_files}\\${today}\\${run_id} Consistency #{ApiTokenJira} #{jira_email} #{jira_domain} #{jira_project_name}\n"
         },
         "propertyDescriptors" : {
           "argumentsStrategy" : {
@@ -17700,11 +17711,11 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : " ",
           "Ignore STDIN" : "false",
-          "Command Arguments" : "invoke_jira.py ${dq_result_files}\\${today}\\${run_id} Validity ${ApiTokenJira} ${jira_email} ${jira_domain} ${jira_project_name}"
+          "Command Arguments" : "invoke_jira.py #{dq_result_files}\\${today}\\${run_id} Validity #{ApiTokenJira} #{jira_email} #{jira_domain} #{jira_project_name}\n"
         },
         "propertyDescriptors" : {
           "argumentsStrategy" : {
@@ -17892,14 +17903,14 @@
           "input-character-set" : "UTF-8",
           "SMTP Port" : "587",
           "SMTP Auth" : "true",
-          "From" : "${email_for_notification}",
+          "From" : "#{email_for_notification}",
           "Include All Attributes In Message" : "false",
           "SMTP Hostname" : "smtp.gmail.com",
           "Subject" : "Jira Creation for Issue ${validation}",
           "SMTP X-Mailer Header" : "NiFi",
           "Content Type" : "text/plain",
           "SMTP Username" : "${email_for_notification}",
-          "To" : "${email_for_notification}",
+          "To" : "#{email_for_notification}",
           "email-ff-content-as-message" : "True",
           "authorization-mode" : "password-based-authorization-mode",
           "SMTP TLS" : "true"
@@ -18964,6 +18975,7 @@
         "scheduledState" : "ENABLED",
         "type" : "OUTPUT_PORT"
       } ],
+      "parameterContextName" : "LocalParameters",
       "position" : {
         "x" : 992.0,
         "y" : 1184.0
@@ -18995,7 +19007,7 @@
           "Move Conflict Strategy" : "Rename",
           "Log level when file not found" : "ERROR",
           "Log level when permission denied" : "ERROR",
-          "File to Fetch" : "${dq_rule_file}\\DQ_rules.csv",
+          "File to Fetch" : "#{dq_rule_file}\\DQ_rules.csv",
           "Completion Strategy" : "None"
         },
         "propertyDescriptors" : {
@@ -19313,12 +19325,12 @@
           "esql-max-rows" : "0",
           "dbf-default-precision" : "10",
           "Max Wait Time" : "0 seconds",
-          "SQL Query" : "select table_name from information_schema.tables where table_schema = 'dq_checks';",
+          "SQL Query" : "select table_name from information_schema.tables where table_schema = '#{schema}';",
           "Database Connection Pooling Service" : "9e053c50-0ce4-34d7-9567-5f91f0785643",
           "esql-auto-commit" : "true",
           "dbf-user-logical-types" : "false",
           "dbf-default-scale" : "0",
-          "sql-pre-query" : "CREATE SCHEMA IF NOT EXISTS ${schema};\nDROP TABLE IF EXISTS dq_checks.dq_rules;\nDROP TABLE IF EXISTS dq_checks.table_with_total_count;\nDROP TABLE IF EXISTS dq_checks.merged_result_tbl;\nDROP TABLE IF EXISTS ${schema}.pass_rec_per_table;\n\nCREATE TABLE IF NOT EXISTS dq_checks.dq_rules (\n    rule_id BIGINT,\n    rule_name VARCHAR(200),\n    connection_id INT,\n    table_name VARCHAR(50),\n    validation_type VARCHAR(50),    \n    validation_grp VARCHAR(50),\n    column_name VARCHAR(50),\n    validation_rule VARCHAR(50),\n    condition VARCHAR(100),\n    column_description VARCHAR(200),\n    rule_description VARCHAR(200)\n);\n\nCREATE TABLE IF NOT EXISTS dq_checks.table_with_total_count (\n    table_name VARCHAR(50),\n    row_count INTEGER\n);\n\nCREATE TABLE IF NOT EXISTS dq_checks.merged_result_tbl (\n    run_date DATE,\n    table_name VARCHAR(50),\n    concatenated_pk_columns VARCHAR(200),\n    rule_id VARCHAR(50),\n    rule_name VARCHAR(200),\n    validation_grp VARCHAR(50),\n    validation_type VARCHAR(50),\n    total_record_in_table INTEGER,\n    run_id BIGINT,\n    total_rules INTEGER,\n    query_generation_status VARCHAR(100),\n\tvalidation_rule VARCHAR(50)\n);\n\nCREATE TABLE IF NOT EXISTS dq_checks.dqstat(run_date varchar(20),\n\trun_id BIGINT,\n\ttable_name varchar(20),\n\trule_id integer,\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS dq_checks.dqsummary(\n\trun_date varchar(20),\n\trun_id BIGINT,\n\tvalidation_group varchar(20),\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS dq_checks.dqscore(\n\trun_date varchar(20),\n\trun_id BIGINT,\n\ttable_name varchar(20),\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS ${schema}.pass_rec_per_table(\n\ttable_name varchar(50),\n\ttotal_record_in_table integer,\n\tvalidation_grp varchar(50),\n\tpass_cnt_for_completeness integer\n);",
+          "sql-pre-query" : "CREATE SCHEMA IF NOT EXISTS #{schema};\nDROP TABLE IF EXISTS #{schema}.dq_rules;\nDROP TABLE IF EXISTS #{schema}.table_with_total_count;\nDROP TABLE IF EXISTS #{schema}.merged_result_tbl;\nDROP TABLE IF EXISTS #{schema}.pass_rec_per_table;\n\nCREATE TABLE IF NOT EXISTS #{schema}.dq_rules (\n    rule_id BIGINT,\n    rule_name VARCHAR(200),\n    connection_id INT,\n    table_name VARCHAR(50),\n    validation_type VARCHAR(50),    \n    validation_grp VARCHAR(50),\n    column_name VARCHAR(50),\n    validation_rule VARCHAR(50),\n    condition VARCHAR(100),\n    column_description VARCHAR(200),\n    rule_description VARCHAR(200)\n);\n\nCREATE TABLE IF NOT EXISTS #{schema}.table_with_total_count (\n    table_name VARCHAR(50),\n    row_count INTEGER\n);\n\nCREATE TABLE IF NOT EXISTS #{schema}.merged_result_tbl (\n    run_date DATE,\n    table_name VARCHAR(50),\n    concatenated_pk_columns VARCHAR(200),\n    rule_id VARCHAR(50),\n    rule_name VARCHAR(200),\n    validation_grp VARCHAR(50),\n    validation_type VARCHAR(50),\n    total_record_in_table INTEGER,\n    run_id BIGINT,\n    total_rules INTEGER,\n    query_generation_status VARCHAR(100),\n\tvalidation_rule VARCHAR(50)\n);\n\nCREATE TABLE IF NOT EXISTS #{schema}.dqstat(run_date varchar(20),\n\trun_id BIGINT,\n\ttable_name varchar(20),\n\trule_id integer,\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS #{schema}.dqsummary(\n\trun_date varchar(20),\n\trun_id BIGINT,\n\tvalidation_group varchar(20),\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS #{schema}.dqscore(\n\trun_date varchar(20),\n\trun_id BIGINT,\n\ttable_name varchar(20),\n\tfail_record_count integer, \n\ttotal_record_count bigint);\n\nCREATE TABLE IF NOT EXISTS #{schema}.pass_rec_per_table(\n\ttable_name varchar(50),\n\ttotal_record_in_table integer,\n\tvalidation_grp varchar(50),\n\tpass_cnt_for_completeness integer\n);\n",
           "compression-format" : "NONE",
           "esql-output-batch-size" : "0",
           "esql-fetch-size" : "0",
@@ -19465,7 +19477,7 @@
         },
         "properties" : {
           "put-db-record-allow-multiple-statements" : "false",
-          "put-db-record-schema-name" : "${schema}",
+          "put-db-record-schema-name" : "#{schema}",
           "put-db-record-unmatched-column-behavior" : "Ignore Unmatched Columns",
           "put-db-record-statement-type" : "INSERT",
           "put-db-record-quoted-identifiers" : "false",
@@ -19851,7 +19863,7 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${python_script}",
+          "Working Directory" : "#{python_script}",
           "Command Path" : "python",
           "Argument Delimiter" : ";",
           "Ignore STDIN" : "false",
@@ -20033,12 +20045,12 @@
         "name" : "InsertRecordInTable_name_with_total_count",
         "penaltyDuration" : "30 sec",
         "position" : {
-          "x" : 1480.0,
-          "y" : 448.0
+          "x" : 1488.0,
+          "y" : 464.0
         },
         "properties" : {
           "put-db-record-allow-multiple-statements" : "false",
-          "put-db-record-schema-name" : "${schema}",
+          "put-db-record-schema-name" : "#{schema}",
           "put-db-record-unmatched-column-behavior" : "Ignore Unmatched Columns",
           "put-db-record-statement-type" : "INSERT",
           "put-db-record-quoted-identifiers" : "false",
@@ -20282,7 +20294,7 @@
         "properties" : {
           "argumentsStrategy" : "Command Arguments Property",
           "Max Attribute Length" : "256",
-          "Working Directory" : "${redis_cli_working_dir}",
+          "Working Directory" : "#{redis_cli_working_dir}",
           "Command Path" : "cmd",
           "Argument Delimiter" : ";",
           "Ignore STDIN" : "true",
@@ -20374,10 +20386,130 @@
   },
   "flowEncodingVersion" : "1.0",
   "latest" : false,
-  "parameterContexts" : { },
+  "parameterContexts" : {
+    "LocalParameters" : {
+      "componentType" : "PARAMETER_CONTEXT",
+      "inheritedParameterContexts" : [ ],
+      "name" : "LocalParameters",
+      "parameters" : [ {
+        "description" : "",
+        "name" : "dq_result_files",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Users\\Public\\Amit\\uptiq\\TPB\\TPB_ODS\\data_validation\\DQ_result_files"
+      }, {
+        "description" : "location of dq_rules stored",
+        "name" : "dq_rule_file",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Users\\Public\\Amit\\uptiq\\TPB\\TPB_ODS\\data_validation\\latest_rule_file"
+      }, {
+        "description" : "on this email notification will come",
+        "name" : "email_for_notification",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "amitbkharoshe@gmail.com"
+      }, {
+        "description" : "on which jira issue created",
+        "name" : "jira_domain",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "cion.atlassian.net"
+      }, {
+        "description" : "",
+        "name" : "jira_email",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "amit@uptiq.ai"
+      }, {
+        "description" : "",
+        "name" : "jira_project_name",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "TOT\n"
+      }, {
+        "description" : "location where required python files stored",
+        "name" : "python_script",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Users\\Public\\Amit\\coding\\nifi_custome_scripts"
+      }, {
+        "description" : "location where redis.exe stored",
+        "name" : "redis_cli_working_dir",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Program Files\\Redis"
+      }, {
+        "description" : "",
+        "name" : "result_db_driver",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "org.postgresql.Driver"
+      }, {
+        "description" : "location where driver path is stored",
+        "name" : "result_db_driver_path",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Users\\Public\\Amit\\Tools\\nifi\\nifi-1.24.0\\nifi-1.24.0\\lib"
+      }, {
+        "description" : "",
+        "name" : "result_db_password",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "Amit@4949"
+      }, {
+        "description" : "",
+        "name" : "result_db_url",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "jdbc:postgresql://127.0.0.1:5433/DQ_check_test"
+      }, {
+        "description" : "",
+        "name" : "result_db_user",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "postgres"
+      }, {
+        "description" : "",
+        "name" : "schema",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "dq_checks"
+      }, {
+        "description" : "",
+        "name" : "source_db_driver",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "org.postgresql.Driver"
+      }, {
+        "description" : "",
+        "name" : "source_db_driver_path",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "C:\\Users\\Public\\Amit\\Tools\\nifi\\nifi-1.24.0\\nifi-1.24.0\\lib"
+      }, {
+        "description" : "",
+        "name" : "source_db_password",
+        "provided" : false,
+        "sensitive" : true
+      }, {
+        "description" : "",
+        "name" : "source_db_url",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "jdbc:postgresql://127.0.0.1:5433/DQ_check_test"
+      }, {
+        "description" : "",
+        "name" : "source_db_user",
+        "provided" : false,
+        "sensitive" : false,
+        "value" : "postgres"
+      } ]
+    }
+  },
   "parameterProviders" : { },
   "snapshotMetadata" : {
     "flowIdentifier" : "DQ_engine",
-    "timestamp" : 1753280136725
+    "timestamp" : 1753350170543
   }
 }
