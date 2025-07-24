@@ -37,7 +37,7 @@
       "backoffMechanism" : "PENALIZE_FLOWFILE",
       "bulletinLevel" : "WARN",
       "bundle" : {
-        "artifact" : "nifi-standard-nar",
+        "artifact" : "nifi-stateful-analysis-nar",
         "group" : "org.apache.nifi",
         "version" : "2.5.0"
       },
@@ -46,73 +46,35 @@
       "concurrentlySchedulableTaskCount" : 1,
       "executionNode" : "ALL",
       "groupIdentifier" : "flow-contents-group",
-      "identifier" : "0cea7bdc-74d3-355f-ac36-a51467193156",
+      "identifier" : "105e842b-3b65-385d-82f9-8f0cd7f6cba1",
       "maxBackoffPeriod" : "10 mins",
-      "name" : "PutFile",
+      "name" : "AttributeRollingWindow",
       "penaltyDuration" : "30 sec",
       "position" : {
-        "x" : -122.5,
-        "y" : 68.33334350585938
+        "x" : -30.5,
+        "y" : 95.33334350585938
       },
-      "properties" : {
-        "Create Missing Directories" : "true",
-        "Conflict Resolution Strategy" : "fail"
-      },
+      "properties" : { },
       "propertyDescriptors" : {
-        "Group" : {
-          "displayName" : "Group",
+        "Value to track" : {
+          "displayName" : "Value to track",
           "dynamic" : false,
           "identifiesControllerService" : false,
-          "name" : "Group",
+          "name" : "Value to track",
           "sensitive" : false
         },
-        "Owner" : {
-          "displayName" : "Owner",
+        "Time window" : {
+          "displayName" : "Time window",
           "dynamic" : false,
           "identifiesControllerService" : false,
-          "name" : "Owner",
+          "name" : "Time window",
           "sensitive" : false
         },
-        "Create Missing Directories" : {
-          "displayName" : "Create Missing Directories",
+        "Sub-window length" : {
+          "displayName" : "Sub-window length",
           "dynamic" : false,
           "identifiesControllerService" : false,
-          "name" : "Create Missing Directories",
-          "sensitive" : false
-        },
-        "Permissions" : {
-          "displayName" : "Permissions",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Permissions",
-          "sensitive" : false
-        },
-        "Maximum File Count" : {
-          "displayName" : "Maximum File Count",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Maximum File Count",
-          "sensitive" : false
-        },
-        "Last Modified Time" : {
-          "displayName" : "Last Modified Time",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Last Modified Time",
-          "sensitive" : false
-        },
-        "Directory" : {
-          "displayName" : "Directory",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Directory",
-          "sensitive" : false
-        },
-        "Conflict Resolution Strategy" : {
-          "displayName" : "Conflict Resolution Strategy",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Conflict Resolution Strategy",
+          "name" : "Sub-window length",
           "sensitive" : false
         }
       },
@@ -123,88 +85,7 @@
       "schedulingPeriod" : "0 sec",
       "schedulingStrategy" : "TIMER_DRIVEN",
       "style" : { },
-      "type" : "org.apache.nifi.processors.standard.PutFile",
-      "yieldDuration" : "1 sec"
-    }, {
-      "autoTerminatedRelationships" : [ ],
-      "backoffMechanism" : "PENALIZE_FLOWFILE",
-      "bulletinLevel" : "WARN",
-      "bundle" : {
-        "artifact" : "nifi-standard-nar",
-        "group" : "org.apache.nifi",
-        "version" : "2.5.0"
-      },
-      "comments" : "",
-      "componentType" : "PROCESSOR",
-      "concurrentlySchedulableTaskCount" : 1,
-      "executionNode" : "ALL",
-      "groupIdentifier" : "flow-contents-group",
-      "identifier" : "21903b2f-e47b-3c8a-a358-f0fa433468ca",
-      "maxBackoffPeriod" : "10 mins",
-      "name" : "AttributesToCSV",
-      "penaltyDuration" : "30 sec",
-      "position" : {
-        "x" : 328.0,
-        "y" : -64.0
-      },
-      "properties" : {
-        "null-value" : "false",
-        "include-core-attributes" : "true",
-        "destination" : "flowfile-attribute",
-        "include-schema" : "false"
-      },
-      "propertyDescriptors" : {
-        "null-value" : {
-          "displayName" : "Null Value",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "null-value",
-          "sensitive" : false
-        },
-        "include-core-attributes" : {
-          "displayName" : "Include Core Attributes",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "include-core-attributes",
-          "sensitive" : false
-        },
-        "attributes-regex" : {
-          "displayName" : "Attributes Regular Expression",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "attributes-regex",
-          "sensitive" : false
-        },
-        "destination" : {
-          "displayName" : "Destination",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "destination",
-          "sensitive" : false
-        },
-        "include-schema" : {
-          "displayName" : "Include Schema",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "include-schema",
-          "sensitive" : false
-        },
-        "attribute-list" : {
-          "displayName" : "Attribute List",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "attribute-list",
-          "sensitive" : false
-        }
-      },
-      "retriedRelationships" : [ ],
-      "retryCount" : 10,
-      "runDurationMillis" : 0,
-      "scheduledState" : "ENABLED",
-      "schedulingPeriod" : "0 sec",
-      "schedulingStrategy" : "TIMER_DRIVEN",
-      "style" : { },
-      "type" : "org.apache.nifi.processors.standard.AttributesToCSV",
+      "type" : "org.apache.nifi.processors.stateful.analysis.AttributeRollingWindow",
       "yieldDuration" : "1 sec"
     }, {
       "autoTerminatedRelationships" : [ ],
@@ -444,99 +325,6 @@
       "style" : { },
       "type" : "org.apache.nifi.processors.standard.PutDatabaseRecord",
       "yieldDuration" : "1 sec"
-    }, {
-      "autoTerminatedRelationships" : [ ],
-      "backoffMechanism" : "PENALIZE_FLOWFILE",
-      "bulletinLevel" : "WARN",
-      "bundle" : {
-        "artifact" : "nifi-standard-nar",
-        "group" : "org.apache.nifi",
-        "version" : "2.5.0"
-      },
-      "comments" : "",
-      "componentType" : "PROCESSOR",
-      "concurrentlySchedulableTaskCount" : 1,
-      "executionNode" : "ALL",
-      "groupIdentifier" : "flow-contents-group",
-      "identifier" : "c61bb968-1dfc-3a51-a745-1066c510542b",
-      "maxBackoffPeriod" : "10 mins",
-      "name" : "PutFile",
-      "penaltyDuration" : "30 sec",
-      "position" : {
-        "x" : 108.5,
-        "y" : 102.33334350585938
-      },
-      "properties" : {
-        "Create Missing Directories" : "true",
-        "Conflict Resolution Strategy" : "fail"
-      },
-      "propertyDescriptors" : {
-        "Group" : {
-          "displayName" : "Group",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Group",
-          "sensitive" : false
-        },
-        "Owner" : {
-          "displayName" : "Owner",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Owner",
-          "sensitive" : false
-        },
-        "Create Missing Directories" : {
-          "displayName" : "Create Missing Directories",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Create Missing Directories",
-          "sensitive" : false
-        },
-        "Permissions" : {
-          "displayName" : "Permissions",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Permissions",
-          "sensitive" : false
-        },
-        "Maximum File Count" : {
-          "displayName" : "Maximum File Count",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Maximum File Count",
-          "sensitive" : false
-        },
-        "Last Modified Time" : {
-          "displayName" : "Last Modified Time",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Last Modified Time",
-          "sensitive" : false
-        },
-        "Directory" : {
-          "displayName" : "Directory",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Directory",
-          "sensitive" : false
-        },
-        "Conflict Resolution Strategy" : {
-          "displayName" : "Conflict Resolution Strategy",
-          "dynamic" : false,
-          "identifiesControllerService" : false,
-          "name" : "Conflict Resolution Strategy",
-          "sensitive" : false
-        }
-      },
-      "retriedRelationships" : [ ],
-      "retryCount" : 10,
-      "runDurationMillis" : 0,
-      "scheduledState" : "ENABLED",
-      "schedulingPeriod" : "0 sec",
-      "schedulingStrategy" : "TIMER_DRIVEN",
-      "style" : { },
-      "type" : "org.apache.nifi.processors.standard.PutFile",
-      "yieldDuration" : "1 sec"
     } ],
     "remoteProcessGroups" : [ ],
     "scheduledState" : "ENABLED",
@@ -548,6 +336,6 @@
   "parameterProviders" : { },
   "snapshotMetadata" : {
     "flowIdentifier" : "abcd",
-    "timestamp" : 1753344693621
+    "timestamp" : 1753344819684
   }
 }
