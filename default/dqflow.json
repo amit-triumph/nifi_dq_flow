@@ -1,11 +1,11 @@
 {
   "externalControllerServices" : { },
   "flow" : {
-    "createdTimestamp" : 1753363487597,
+    "createdTimestamp" : 1753381269861,
     "description" : "",
     "identifier" : "dqflow",
-    "lastModifiedTimestamp" : 1753363487597,
-    "name" : "dq_flow",
+    "lastModifiedTimestamp" : 1753381269861,
+    "name" : "dqflow",
     "versionCount" : 0
   },
   "flowContents" : {
@@ -439,14 +439,15 @@
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.LookupService"
+
+        "type" : "org.apache.nifi.lookup.RecordLookupService"
       }, {
         "bundle" : {
           "artifact" : "nifi-standard-services-api-nar",
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.RecordLookupService"
+        "type" : "org.apache.nifi.lookup.LookupService"
       } ],
       "groupIdentifier" : "flow-contents-group",
       "identifier" : "3616e3a4-20f8-355a-a9b7-247832ff61a5",
@@ -786,14 +787,14 @@
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.LookupService"
+        "type" : "org.apache.nifi.lookup.RecordLookupService"
       }, {
         "bundle" : {
           "artifact" : "nifi-standard-services-api-nar",
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
-        "type" : "org.apache.nifi.lookup.RecordLookupService"
+        "type" : "org.apache.nifi.lookup.LookupService"
       } ],
       "groupIdentifier" : "flow-contents-group",
       "identifier" : "75878d7f-12ae-35a3-b08c-7fd1570edf64",
@@ -13000,6 +13001,36 @@
     }, {
       "comments" : "",
       "componentType" : "PROCESS_GROUP",
+      "connections" : [ ],
+      "controllerServices" : [ ],
+      "defaultBackPressureDataSizeThreshold" : "1 GB",
+      "defaultBackPressureObjectThreshold" : 10000,
+      "defaultFlowFileExpiration" : "0 sec",
+      "executionEngine" : "INHERITED",
+      "flowFileConcurrency" : "UNBOUNDED",
+      "flowFileOutboundPolicy" : "STREAM_WHEN_AVAILABLE",
+      "funnels" : [ ],
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "1e60410d-733c-369e-b346-7a462575a453",
+      "inputPorts" : [ ],
+      "labels" : [ ],
+      "maxConcurrentTasks" : 1,
+      "name" : "tessting_processor",
+      "outputPorts" : [ ],
+      "parameterContextName" : "LocalParameters",
+      "position" : {
+        "x" : 1584.0,
+        "y" : 1456.0
+      },
+      "processGroups" : [ ],
+      "processors" : [ ],
+      "remoteProcessGroups" : [ ],
+      "scheduledState" : "ENABLED",
+      "statelessFlowTimeout" : "1 min"
+    }, {
+      "comments" : "",
+      "componentType" : "PROCESS_GROUP",
+
       "connections" : [ {
         "backPressureDataSizeThreshold" : "1 GB",
         "backPressureObjectThreshold" : 10000,
@@ -20486,6 +20517,6 @@
   "parameterProviders" : { },
   "snapshotMetadata" : {
     "flowIdentifier" : "dqflow",
-    "timestamp" : 1753364047811
+    "timestamp" : 1753381270843
   }
 }
