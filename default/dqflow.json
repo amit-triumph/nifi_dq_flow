@@ -439,6 +439,7 @@
           "group" : "org.apache.nifi",
           "version" : "2.5.0"
         },
+
         "type" : "org.apache.nifi.lookup.RecordLookupService"
       }, {
         "bundle" : {
@@ -13029,6 +13030,7 @@
     }, {
       "comments" : "",
       "componentType" : "PROCESS_GROUP",
+
       "connections" : [ {
         "backPressureDataSizeThreshold" : "1 GB",
         "backPressureObjectThreshold" : 10000,
