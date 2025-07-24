@@ -18551,6 +18551,35 @@
     }, {
       "comments" : "",
       "componentType" : "PROCESS_GROUP",
+      "connections" : [ ],
+      "controllerServices" : [ ],
+      "defaultBackPressureDataSizeThreshold" : "1 GB",
+      "defaultBackPressureObjectThreshold" : 10000,
+      "defaultFlowFileExpiration" : "0 sec",
+      "executionEngine" : "INHERITED",
+      "flowFileConcurrency" : "UNBOUNDED",
+      "flowFileOutboundPolicy" : "STREAM_WHEN_AVAILABLE",
+      "funnels" : [ ],
+      "groupIdentifier" : "flow-contents-group",
+      "identifier" : "311c306d-2615-33a1-8f83-645890c4ca02",
+      "inputPorts" : [ ],
+      "labels" : [ ],
+      "maxConcurrentTasks" : 1,
+      "name" : "v",
+      "outputPorts" : [ ],
+      "parameterContextName" : "LocalParameters",
+      "position" : {
+        "x" : 1895.22832111963,
+        "y" : 1633.0310935455236
+      },
+      "processGroups" : [ ],
+      "processors" : [ ],
+      "remoteProcessGroups" : [ ],
+      "scheduledState" : "ENABLED",
+      "statelessFlowTimeout" : "1 min"
+    }, {
+      "comments" : "",
+      "componentType" : "PROCESS_GROUP",
       "connections" : [ {
         "backPressureDataSizeThreshold" : "1 GB",
         "backPressureObjectThreshold" : 10000,
@@ -20597,6 +20626,6 @@
   "parameterProviders" : { },
   "snapshotMetadata" : {
     "flowIdentifier" : "dqflow",
-    "timestamp" : 1753379842697
+    "timestamp" : 1753380760174
   }
 }
